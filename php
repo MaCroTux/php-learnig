@@ -1,0 +1,11 @@
+#!/bin/sh
+
+docker 					\
+	run 				\
+	-it 				\
+	--rm 				\
+	--name php-cli-test 		\
+	-v ${PWD}:/usr/src/myapp 	\
+	-w /usr/src/myapp 		\
+	php:7.2-cli 			\
+	php $@
