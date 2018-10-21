@@ -9,7 +9,8 @@ $telephone = $argv[4];
 
 regUser(FIlE_NAME, $action, $name, $address, $telephone);
 
-function regUser($fileName, $action, $name, $address, $telephone) {
+function regUser(string $fileName, string $action, $name, $address, $telephone): void
+{
 
     if ($action === 'get') {
 
