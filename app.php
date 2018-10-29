@@ -1,38 +1,31 @@
 <?php
 
-const FIlE_NAME = 'data.dat';
+/* Librerias de lectura de DB, echale un ojo antes */
+require 'lib/storage.php';
+/* Librerias de manipulacion de productos */
+require 'lib/product.php';
+/* Libreria qie pinta tablas moolaaa */
+require 'lib/drawCli.php';
 
-$action    = $argv[1] ?? '';
-$name      = $argv[2];
-$address   = $argv[3];
-$telephone = $argv[4];
+/* Archivo donde se guardaran los productos */
+const PRODUCT_FIlE_NAME = 'product.json';
 
-regUser(FIlE_NAME, $action, $name, $address, $telephone);
+/* MENU: No paramos de pedir datos hasta que escribas exit */
+do {
 
-function regUser(string $fileName, string $action, $name, $address, $telephone): void
-{
+    $action = readline('Operacion [get|put|exit] $ ');
 
+    /* Obetenr los productos */
     if ($action === 'get') {
-
-        $dataRaw = file_get_contents($fileName);
-        print_r(json_decode($dataRaw));
-        die('Fin de registro');
-
+        getProducts(); // -> product.php
     }
 
+    /* Insertar un producto */
     if ($action === 'put') {
-
-        $dataRaw = file_get_contents($fileName);
-        $list    = json_decode($dataRaw, true);
-        $id      = count($list)+1;
-
-        $list[$id]['id']        = $id;
-        $list[$id]['Name']      = $name;
-        $list[$id]['Address']   = $address;
-        $list[$id]['Telephone'] = $telephone;
-
-        $dataRaw = json_encode($list);
-        file_put_contents($fileName, $dataRaw);
-
+        newProduct(); // -> product.php
     }
-}
+
+} while (trim($action) != 'exit');
+
+/* Chaooo */
+echo "\nSee you next! .-)\n";

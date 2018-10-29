@@ -1,5 +1,9 @@
 # Execute command
 
-`./app get`
+`./container`
 
-`./app app.php put Jesus Campanillas 6549879846`
+> `php ./app`
+
+`./www`
+
+> Go to localhost:8080
