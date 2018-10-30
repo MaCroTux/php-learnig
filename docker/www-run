@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+SUBDIR=$1
+
+if [ -z SUBDIR ]
+then
+    SUBDIR=''
+fi
+
+docker build -t www docker/
+
+docker run                                                                                                             \
+    --rm                                                                                                               \
+    -d                                                                                                                \
+    -p 80:80                                                                                                           \
+    --name www                                                                                                         \
+    -v ${PWD}/$SUBDIR:/var/www/html                                                                                    \
+    -v ${PWD}/docker/apache//000-default.conf:/etc/apache2/sites-available/000-default.conf                            \
+    -w /data                                                                                                           \
+    www:latest

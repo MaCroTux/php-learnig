@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Slim 3</title>
+        <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+        <style>
+            body {
+                margin: 50px 0 0 0;
+                padding: 0;
+                width: 100%;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                text-align: center;
+                color: #aaa;
+                font-size: 18px;
+            }
+
+            h1 {
+                color: #719e40;
+                letter-spacing: -3px;
+                font-family: 'Lato', sans-serif;
+                font-size: 100px;
+                font-weight: 200;
+                margin-bottom: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <?php if(is_array($sources) && count($sources) === 0) { ?>
+            <p>Kraken result is empty :-( <a href="/">[x]</a></p>
+        <?php } ?>
+        <?php if(!empty($sources)) { ?>
+        <div id="source">
+            <h2>Source to <?php echo ucfirst($source) ?> <a href="#" id="sourceClose">[x]</a></h2>
+
+            <table border="1" width="100%">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Create at</th>
+                    <th>Version</th>
+                </tr>
+
+                <?php foreach($sources as $source) { ?>
+                    <tr>
+                        <td><?php echo $source['id'] ?></td>
+                        <td><?php echo $source['name'] ?></td>
+                        <td><?php echo $source['price'] ?></td>
+                        <td><?php echo date('d/m/Y h:i:s', $source['updateAt']) ?></td>
+                        <td><?php echo $source['version'] ?></td>
+                    </tr>
+                <?php } ?>
+            </table>
+            <br />
+        </div>
+        <?php } ?>
+        <?php if(!empty($products)) { ?>
+        <h1>Product list</h1>
+        <p>
+            <input type="text" id="search" autocomplete="off" style="width: 90%" placeholder="Search product">
+        </p>
+        <table border="1" width="100%">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Create at</th>
+                <!-- <th>Kraken find</th> -->
+                <th>Action</th>
+            </tr>
+
+            <?php foreach($products as $product) { ?>
+            <tr>
+                <td><?php echo $product['id'] ?></td>
+                <td><div class="name"><?php echo $product['name'] ?></div></td>
+                <td><?php echo date('d/m/Y h:i:s', $product['updateAt']) ?></td>
+                <!-- <td><?php echo $product['suggest'] ?></td> -->
+                <td>
+                    <a href="#" onclick="deleteConfirm('<?php echo $product['id'] ?>');">Delete</a>
+                    <a href="/crawler/pccomponentes/<?php echo $product['id'] ?>">PcComponentes</a>
+                    <a href="#" onclick="krakenConfirm('<?php echo $product['id'] ?>');"><img width="30" src="/images/kraken.png" /></a>
+                </td>
+            </tr>
+            <?php } ?>
+        </table>
+        <hr />
+        <?php } ?>
+        <form action="/new" method="post">
+            <label for="name">New product here</label>
+            <input type="text" name="name"/>
+            <input type="submit" value="New"/>
+        </form>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script>
+            function deleteConfirm(id) {
+                var confirm = window.confirm("Are you sure you want delete?");
+                if (confirm) {
+                    document.location = '/delete/'+id;
+                }
+
+                return false;
+            }
+            function krakenConfirm(id) {
+                var confirm = window.confirm("KRAKEN ALERT!!, Are you sure you want launch kraken?");
+                if (confirm) {
+                    document.location = '/kraken/'+id;
+                }
+
+                return false;
+            }
+            $('#sourceClose').click(function(e){
+                $(e.target).parent().parent().remove();
+            });
+
+            $('#search').keyup(function(e) {
+                $('.name').each(function (index, ele) {
+                    var text = $(ele);
+                    if (text.text().toLowerCase().indexOf($('#search').val()) === -1) {
+                        text.parent().parent().hide();
+
+                    }else{
+                        text.parent().parent().show();
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

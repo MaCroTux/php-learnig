@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+docker run                                                                                                             \
+    --rm                                                                                                               \
+    --name composer_cli                                                                                                \
+    -v ${PWD}:/data                                                                                                    \
+    -w /data                                                                                                           \
+    composer:1.7.2                                                                                                     \
+    composer $@

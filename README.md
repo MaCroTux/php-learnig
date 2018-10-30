@@ -1,9 +1,5 @@
 # Execute command
 
-`./container`
+`./docker/www-run`
 
-> `php ./app`
-
-`./www`
-
-> Go to localhost:8080
+> Go to http://localhost
