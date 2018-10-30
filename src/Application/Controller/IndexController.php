@@ -32,6 +32,7 @@ class IndexController
         $args['sources'] = null;
         if (!empty($args['source']) && !empty($args['id'])) {
             $args['sources'] = $this->repository->getSource($source, $productId);
+            $args['productName'] = explode(' ', $this->repository->byId($productId)['name']);
         }
 
         $args['products'] = $this->repository->all();

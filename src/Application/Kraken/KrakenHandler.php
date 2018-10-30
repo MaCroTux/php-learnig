@@ -14,7 +14,7 @@ class KrakenHandler
     private const MID_PRIORITY_TIMER  = 240;
     private const LOW_PRIORITY_TIMER  = 3600;
 
-    private const MAX_SEARCH_RESULT   = 5;
+    private const MAX_SEARCH_RESULT   = 20;
     /**
      * @var SqlLiteRepository
      */
