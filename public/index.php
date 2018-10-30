@@ -17,6 +17,23 @@ session_start();
 $settings = require __DIR__ . '/../app/settings.php';
 $app = new \Slim\App($settings);
 
+$c = $app->getContainer();
+$c['phpErrorHandler'] = function ($c) {
+    return function ($request, $response, $error) use ($c) {
+        return $response->withStatus(500)
+                        ->withHeader('Content-Type', 'text/html')
+                        ->write('<h1>Oops this is not a error!</h1><img src="/images/error500.gif" /><br /><a href="/">Go to back</a>');
+    };
+};
+
+$c['notFoundHandler'] = function ($c) {
+    return function ($request, $response) use ($c) {
+        return $response->withStatus(404)
+                        ->withHeader('Content-Type', 'text/html')
+                        ->write('<h1>Page not found!</h1><img src="/images/homer_disapear.gif" /><br /><a href="/">Go to back</a>');
+    };
+};
+
 // Set up dependencies
 require __DIR__ . '/../app/dependencies.php';
 
