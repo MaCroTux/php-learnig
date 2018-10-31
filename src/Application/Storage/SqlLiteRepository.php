@@ -4,7 +4,7 @@ namespace Application\Storage;
 
 class SqlLiteRepository
 {
-    private const FILE_DB = '/../app/database.sqli';
+    private const FILE_DB = '/../db/database.sqli';
 
     public function __construct()
     {
@@ -90,6 +90,10 @@ class SqlLiteRepository
     {
         $insertValues = [];
         $date = time();
+
+        if (empty($data)) {
+            return;
+        }
 
         $lastVersion = $this->lastVersion($productId)+1;
 
