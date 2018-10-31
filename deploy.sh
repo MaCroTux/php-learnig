@@ -22,5 +22,6 @@ mv kraken $OLD_DIR
 mv php-learning kraken
 
 cp $OLD_DIR/db/database.sqli kraken/db/
+cp $OLD_DIR/logs/app.log kraken/logs/
 
 chown www-data:www-data kraken -R
