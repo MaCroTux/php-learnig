@@ -78,6 +78,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Price</th>
+                            <th>Inc. 10%</th>
                             <th>Create at</th>
                             <!-- <th>Version</th> -->
                         </tr>
@@ -87,11 +88,14 @@
                         $name = '';
                         foreach ($productName as $word) {
                             $name .= str_replace(strtolower($word), '<strong style="color:#222">'.$word.'</strong>', strtolower($source['name']));
-                        }
-                        ?>
+
+                            $priceSource = str_replace(['.',','], ['','.'], $source['price']);
+                            $number      = number_format(($priceSource * 0.10) + $priceSource,2,',' ,'.');
+                        } ?>
                         <tr style="border-bottom: #ddd solid 1px;">
                             <td><?php echo $name ?></td>
-                            <td style="font-weight: bolder;"><?php echo $source['price'] ?></td>
+                            <td><?php echo $source['price'] ?></td>
+                            <td style="font-weight: bolder;"><?php echo $number ?></td>
                             <td><?php echo date('d/m/Y', $source['updateAt']) ?></td>
                             <!-- <td><?php echo $source['version'] ?></td> -->
                         </tr>
