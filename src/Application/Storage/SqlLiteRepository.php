@@ -57,7 +57,7 @@ class SqlLiteRepository
 
     public function getSource(string $source, string $productId): array
     {
-        $lastVersion = $this->lastVersion($productId) ?? 1;
+        $lastVersion = $this->lastVersion($productId, $source) ?? 1;
 
         if(!$lastVersion) {
             $lastVersion = 1;
@@ -72,9 +72,9 @@ class SqlLiteRepository
         return $query->fetchAll();
     }
 
-    private function lastVersion($productId){
+    private function lastVersion($productId, $source){
         $query = $this->conn->query(
-            "SELECT DISTINCT version FROM data_crawler WHERE productId = '$productId' ORDER BY version DESC"
+            "SELECT DISTINCT version FROM data_crawler WHERE source = '$source' AND productId = '$productId' ORDER BY version DESC"
         );
 
         if (!$query) {
@@ -86,7 +86,7 @@ class SqlLiteRepository
         return $query->fetchColumn();
     }
 
-    public function save(array $data, string $productId): void
+    public function save(array $data, string $productId, string $source): void
     {
         $insertValues = [];
         $date = time();
@@ -95,11 +95,11 @@ class SqlLiteRepository
             return;
         }
 
-        $lastVersion = $this->lastVersion($productId)+1;
+        $lastVersion = $this->lastVersion($productId, $source)+1;
 
         foreach ($data as $item) {
             $id = uniqid();
-            $insertValues[] = "('".$id."','".$productId."','pccomponentes','".$item['product']."','".$item['price']."','".$lastVersion."','".$date."') ";
+            $insertValues[] = "('".$id."','".$productId."','$source','".$item['product']."','".$item['price']."','".$lastVersion."','".$date."') ";
         }
 
         $queryStr = "INSERT INTO data_crawler (id, productId, source, name, price, version, updateAt) VALUES ".implode(',', $insertValues);

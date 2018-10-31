@@ -94,8 +94,8 @@
                         } ?>
                         <tr style="border-bottom: #ddd solid 1px;">
                             <td><?php echo $name ?></td>
-                            <td><?php echo $source['price'] ?></td>
-                            <td style="font-weight: bolder;"><?php echo $number ?></td>
+                            <td style="padding-right: 10px; padding-left: 10px;text-align: right;"><?php echo $source['price'] ?></td>
+                            <td style="font-weight: bolder; padding-right: 10px; padding-left: 10px;text-align: right;"><?php echo $number ?></td>
                             <td><?php echo date('d/m/Y', $source['updateAt']) ?></td>
                             <!-- <td><?php echo $source['version'] ?></td> -->
                         </tr>
@@ -126,7 +126,7 @@
                         <td><?php echo date('d/m/Y', $product['updateAt']) ?></td>
                         <td>
                             <a href="/crawler/pccomponentes/<?php echo $product['id'] ?>"><img title="PcComponentes" width="30" src="/images/pccomponentes.png" /></a>
-                            <a href="#"><img title="Amazon" width="30" src="/images/amazon.png" /></a>
+                            <a href="/crawler/amazones/<?php echo $product['id'] ?>"><img title="Amazon" width="30" src="/images/amazon.png" /></a>
                         </td>
                         <td>
                             <a href="#" onclick="deleteConfirm('<?php echo $product['id'] ?>');"><img title="Delete me" width="30" src="/images/trash.png" /></a>

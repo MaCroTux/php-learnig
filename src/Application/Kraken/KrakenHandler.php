@@ -37,6 +37,6 @@ class KrakenHandler
 
         $search = array_slice($this->kraken->execute($product['name']), 0, self::MAX_SEARCH_RESULT);
 
-        $this->repository->save($search, $productId);
+        $this->repository->save($search, $productId, $this->kraken->source());
     }
 }

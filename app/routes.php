@@ -22,12 +22,21 @@ $app->get('/crawler/{source}/{id}', function (Request $request, Response $respon
 
 $app->get('/kraken/{id}', function (Request $request, Response $response, array $args)
 {
-    $kraken = new \Application\Kraken\KrakenPcComponentes($this->logger);
     $repository = new \Application\Storage\SqlLiteRepository();
 
-    $kraken = new \Application\Kraken\KrakenHandler($repository, $kraken);
+    $krakenHandler = new \Application\Kraken\KrakenHandler(
+        $repository,
+        new \Application\Kraken\KrakenAmazonEs($this->logger)
+    );
 
-    $kraken->handle($args['id']);
+    $krakenHandler->handle($args['id']);
+
+    $krakenHandler = new \Application\Kraken\KrakenHandler(
+        $repository,
+        new \Application\Kraken\KrakenPcComponentes($this->logger)
+    );
+
+    $krakenHandler->handle($args['id']);
     
     return $response->withRedirect("/crawler/pccomponentes/".$args['id']);
 });

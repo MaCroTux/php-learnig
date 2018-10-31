@@ -7,6 +7,8 @@ use Monolog\Logger;
 class KrakenPcComponentes implements Kraken
 {
     private const FINDER_URL = 'https://www.pccomponentes.com/buscar/?query=';
+    public const SOURCE      = 'pccomponentes';
+
     /**
      * @var Logger
      */
@@ -15,6 +17,11 @@ class KrakenPcComponentes implements Kraken
     public function __construct(Logger $logger)
     {
         $this->logger = $logger;
+    }
+
+    public function source(): string
+    {
+        return self::SOURCE;
     }
 
     public function execute($findProduct): array
