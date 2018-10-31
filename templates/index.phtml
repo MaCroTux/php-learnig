@@ -1,146 +1,188 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8"/>
-        <title>Kraken</title>
-        <link rel="shortcut icon" href="favicon.png" type="image/png" />
-        <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-        <style>
-            body {
-                margin: 0 0 0 0;
-                padding: 0;
-                width: 100%;
-                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-                text-align: center;
-                color: #aaa;
-                font-size: 18px;
-            }
+<html lang="en">
+<head>
+    <title>Kraken</title>
+    <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+    <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Listado de productos</title>
 
-            h1 {
-                color: #719e40;
-                letter-spacing: -3px;
-                font-family: 'Lato', sans-serif;
-                font-size: 100px;
-                font-weight: 200;
-                margin-bottom: 0;
-                margin-top: 10px;
-            }
-            h1.head {
-                margin-left: 20px;
-                text-align: left;
-                font-size: 40px;
-            }
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body {
+            margin: 0 0 0 0;
+            padding: 0;
+            width: 100%;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #555;
+            font-size: 18px;
+        }
 
-            img.logo {
-                vertical-align: middle;
-            }
-        </style>
-    </head>
-    <body>
+        h1 {
+            color: #719e40;
+            letter-spacing: -3px;
+            font-family: 'Lato', sans-serif;
+            font-size: 100px;
+            font-weight: 200;
+            margin-bottom: 0;
+            margin-top: 10px;
+        }
+        h1.head {
+            margin-left: 20px;
+            text-align: left;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        img.logo {
+            vertical-align: middle;
+        }
+        #source {
+            margin-top: 20px;
+            padding: 10px;
+            border: #222 1px solid;
+        }
+    </style>
+</head>
+<body>
     <div style="background-color: #eee; padding: 5px 0 5px 0;">
         <h1 class="head"><img class="logo" width="50" src="/images/kraken.png"/> Kraken </h1>
     </div>
+
+    <div class="container">
+
         <?php if(is_array($sources) && count($sources) === 0) { ?>
-            <p>Kraken result is empty :-( <a href="/">[x]</a></p>
+            <br />
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Kraken!</strong> Result is empty :-(
+            </div>
         <?php } ?>
         <?php if(!empty($sources)) { ?>
-        <div id="source">
-            <h2>Source to <?php echo ucfirst($source) ?> <a href="#" id="sourceClose">[x]</a></h2>
+            <div id="source">
+                <button type="button" class="close" id="sourceClose" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h2>Source to <?php echo ucfirst($source) ?></h2>
 
-            <table border="1" width="100%">
-                <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Create at</th>
-                    <th>Version</th>
-                </tr>
-
-                <?php foreach($sources as $source) {
-                    $name = '';
-                    foreach ($productName as $word) {
-                        $name .= str_replace(strtolower($word), '<strong style="color:#444">'.$word.'</strong>', strtolower($source['name']));
-                    }
-                ?>
-                    <tr>
-                        <td style="font-weight: bolder;"><?php echo $name ?></td>
-                        <td style="font-weight: bolder;"><?php echo $source['price'] ?></td>
-                        <td><?php echo date('d/m/Y h:i:s', $source['updateAt']) ?></td>
-                        <td><?php echo $source['version'] ?></td>
-                    </tr>
-                <?php } ?>
-            </table>
-            <br />
-        </div>
+                <table class="table-hover" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Create at</th>
+                            <!-- <th>Version</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($sources as $source) {
+                        $name = '';
+                        foreach ($productName as $word) {
+                            $name .= str_replace(strtolower($word), '<strong style="color:#222">'.$word.'</strong>', strtolower($source['name']));
+                        }
+                        ?>
+                        <tr style="border-bottom: #ddd solid 1px;">
+                            <td><?php echo $name ?></td>
+                            <td style="font-weight: bolder;"><?php echo $source['price'] ?></td>
+                            <td><?php echo date('d/m/Y', $source['updateAt']) ?></td>
+                            <!-- <td><?php echo $source['version'] ?></td> -->
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
+                <br />
+            </div>
         <?php } ?>
         <?php if(!empty($products)) { ?>
-        <h1>Product list</h1>
-        <p>
-            <input type="text" id="search" autocomplete="off" style="width: 90%" placeholder="Search product">
-        </p>
-        <table border="1" width="100%">
-            <tr>
-                <th>Name</th>
-                <th>Create at</th>
-                <th>Sources</th>
-                <th>Action</th>
-            </tr>
-
-            <?php foreach($products as $product) { ?>
-            <tr>
-                <td><div class="name" style="color:#444"><?php echo $product['name'] ?></div></td>
-                <td><?php echo date('d/m/Y h:i:s', $product['updateAt']) ?></td>
-                <td>
-                    <a href="/crawler/pccomponentes/<?php echo $product['id'] ?>"><img title="PcComponentes" width="30" src="/images/pccomponentes.png" /></a>
-                    <a href="#"><img title="Amazon" width="30" src="/images/amazon.png" /></a>
-                </td>
-                <td>
-                    <a href="#" onclick="deleteConfirm('<?php echo $product['id'] ?>');"><img title="Delete me" width="30" src="/images/trash.png" /></a>
-                    <a href="#" onclick="krakenConfirm('<?php echo $product['id'] ?>');"><img title="Launch the Kraken!" width="30" src="/images/kraken.png" /></a>
-                </td>
-            </tr>
-            <?php } ?>
-        </table>
-        <hr />
+            <h1>Product list</h1>
+            <p>
+                <input  class="form-control"  type="text" id="search" autocomplete="off" style="width: 90%" placeholder="Search product">
+            </p>
+            <table class="table-striped" width="100%">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Create at</th>
+                    <th>Sources</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($products as $product) { ?>
+                    <tr>
+                        <td><div class="name" style="color:#444"><?php echo $product['name'] ?></div></td>
+                        <td><?php echo date('d/m/Y', $product['updateAt']) ?></td>
+                        <td>
+                            <a href="/crawler/pccomponentes/<?php echo $product['id'] ?>"><img title="PcComponentes" width="30" src="/images/pccomponentes.png" /></a>
+                            <a href="#"><img title="Amazon" width="30" src="/images/amazon.png" /></a>
+                        </td>
+                        <td>
+                            <a href="#" onclick="deleteConfirm('<?php echo $product['id'] ?>');"><img title="Delete me" width="30" src="/images/trash.png" /></a>
+                            <a href="#" onclick="krakenConfirm('<?php echo $product['id'] ?>');"><img title="Launch the Kraken!" width="30" src="/images/kraken.png" /></a>
+                        </td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+            <hr />
         <?php } ?>
         <form action="/new" method="post" style="margin-top: 50px;">
-            <label for="name">New product here</label>
-            <input type="text" name="name"/>
-            <input type="submit" value="New"/>
+            <div class="form-group">
+                <label for="name">New product here</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="" autocomplete="off">
+            </div>
+            <input class="btn btn-primary" type="submit" value="New"/>
         </form>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script>
-            function deleteConfirm(id) {
-                var confirm = window.confirm("Are you sure you want delete?");
-                if (confirm) {
-                    document.location = '/delete/'+id;
-                }
 
-                return false;
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+        function deleteConfirm(id) {
+            var confirm = window.confirm("Are you sure you want delete?");
+            if (confirm) {
+                document.location = '/delete/'+id;
             }
-            function krakenConfirm(id) {
-                var confirm = window.confirm("KRAKEN ALERT!!, Are you sure you want launch kraken?");
-                if (confirm) {
-                    document.location = '/kraken/'+id;
-                }
 
-                return false;
+            return false;
+        }
+        function krakenConfirm(id) {
+            var confirm = window.confirm("KRAKEN ALERT!!, Are you sure you want launch kraken?");
+            if (confirm) {
+                document.location = '/kraken/'+id;
             }
-            $('#sourceClose').click(function(e){
-                $(e.target).parent().parent().remove();
-            });
 
-            $('#search').keyup(function(e) {
-                $('.name').each(function (index, ele) {
-                    var text = $(ele);
-                    if (text.text().toLowerCase().indexOf($('#search').val()) === -1) {
-                        text.parent().parent().hide();
+            return false;
+        }
+        $('#sourceClose').click(function(e){
+            $(e.target).parent().parent().remove();
+        });
 
-                    }else{
-                        text.parent().parent().show();
-                    }
-                });
+        $('#search').keyup(function(e) {
+            $('.name').each(function (index, ele) {
+                var text = $(ele);
+                if (text.text().toLowerCase().indexOf($('#search').val()) === -1) {
+                    text.parent().parent().hide();
+
+                }else{
+                    text.parent().parent().show();
+                }
             });
-        </script>
-    </body>
+        });
+        $('.head').click(function(){
+            document.location= '/';
+        });
+    </script>
+</body>
 </html>
