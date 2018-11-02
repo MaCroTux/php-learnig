@@ -16,6 +16,11 @@ class SqlLiteRepository
         $query = $this->conn->query(
             "SELECT *, 1 as priority, (SELECT count(*) FROM data_crawler d WHERE d.productId = p.id) as suggest FROM product p ORDER BY updateAt DESC"
         );
+
+        if (!$query) {
+          return [];
+        }
+
         $query->execute();
 
         return $query->fetchAll();
