@@ -1,0 +1,1 @@
+docker run --rm -v ${PWD}:/usr/src/myapp -w /usr/src/myapp php:7.2-cli php $@
